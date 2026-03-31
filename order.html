@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Order | Pranav's Cafe</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header class="navbar">
+        <div class="logo">
+            <a href="index.html">
+                <img src="assets/images/logo.jpg" alt="Pranav's Cafe Logo" class="logo-img">
+            </a>
+        </div>
+        <nav class="nav-links">
+            <a href="index.html#about">About</a>
+            <a href="index.html#menu">Menu</a>
+            <a href="login.html">Login</a>
+        </nav>
+        <a href="order.html" class="nav-cta">Order Now</a>
+    </header>
+
+    <main>
+        <div id="vanta-bg" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1;"></div>
+        <div class="container">
+            <div class="form-container" style="max-width: 800px;">
+                <div class="form-header">
+                    <h2>Place Your Order</h2>
+                    <p style="color: var(--text-muted); margin-top: 0.5rem;">Select items and enter your details.</p>
+                </div>
+                <!-- Simple order form UI -->
+                <form action="#" method="POST">
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; margin-bottom: 2rem;">
+                        <!-- Menu items list -->
+                        <div>
+                            <h3 style="color: var(--accent-color); margin-bottom: 1rem;">Menu Items</h3>
+                            <div class="form-group" style="display: flex; justify-content: space-between; align-items: center;">
+                                <label for="item1" style="margin: 0;">Signature Pour-Over (₹250)</label>
+                                <input type="number" id="item1" class="form-control" style="width: 80px;" value="0" min="0">
+                            </div>
+                            <div class="form-group" style="display: flex; justify-content: space-between; align-items: center;">
+                                <label for="item2" style="margin: 0;">Classic Croissant (₹200)</label>
+                                <input type="number" id="item2" class="form-control" style="width: 80px;" value="0" min="0">
+                            </div>
+                            <div class="form-group" style="display: flex; justify-content: space-between; align-items: center;">
+                                <label for="item3" style="margin: 0;">Iced Matcha Latte (₹300)</label>
+                                <input type="number" id="item3" class="form-control" style="width: 80px;" value="0" min="0">
+                            </div>
+                            <div class="form-group" style="display: flex; justify-content: space-between; align-items: center;">
+                                <label for="item4" style="margin: 0;">Avocado Toast (₹350)</label>
+                                <input type="number" id="item4" class="form-control" style="width: 80px;" value="0" min="0">
+                            </div>
+                        </div>
+                        
+                        <!-- Details -->
+                        <div>
+                            <h3 style="color: var(--accent-color); margin-bottom: 1rem;">Your Details</h3>
+                            <div class="form-group">
+                                <label for="name">Full Name</label>
+                                <input type="text" id="name" class="form-control" placeholder="John Doe" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="phone">Phone Number</label>
+                                <input type="tel" id="phone" class="form-control" placeholder="+91 98765 43210" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="address">Delivery Address</label>
+                                <textarea id="address" class="form-control" rows="3" placeholder="Enter full address" required></textarea>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div style="background: rgba(22, 23, 17, 0.4); border-radius: 12px; padding: 1.5rem; margin-bottom: 2rem; border: 1px solid rgba(168, 151, 122, 0.2); text-align: right;">
+                        <span style="font-size: 1.2rem; color: var(--text-muted);">Total Estimate: </span>
+                        <span id="order-total" style="font-size: 2rem; font-weight: 600; color: var(--accent-color); font-family: var(--font-heading);">₹0</span>
+                    </div>
+
+                    <button type="submit" class="btn primary-btn full-width">Pay on Delivery</button>
+                </form>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <div class="container footer-content">
+            <div class="footer-brand">
+                <h3>Pranav's Cafe</h3>
+                <p>Minimalism & Coffee.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vanta@latest/dist/vanta.fog.min.js"></script>
+    <script>
+        // Initialize Background Effect
+        VANTA.FOG({
+          el: "#vanta-bg",
+          mouseControls: true,
+          touchControls: true,
+          gyroControls: false,
+          minHeight: 200.00,
+          minWidth: 200.00,
+          highlightColor: 0xa8977a,
+          midtoneColor: 0x614f40,
+          lowlightColor: 0x45362c,
+          baseColor: 0x161711,
+          blurFactor: 0.60,
+          speed: 1.50,
+          zoom: 1.00
+        });
+
+        // Dynamic Total Calculation
+        const items = [
+            { id: 'item1', price: 250 },
+            { id: 'item2', price: 200 },
+            { id: 'item3', price: 300 },
+            { id: 'item4', price: 350 }
+        ];
+        
+        const totalElement = document.getElementById('order-total');
+
+        function calculateTotal() {
+            let total = 0;
+            items.forEach(item => {
+                const qty = document.getElementById(item.id).value;
+                if(qty && !isNaN(qty)) {
+                    total += parseInt(qty) * item.price;
+                }
+            });
+            totalElement.textContent = `₹${total}`;
+        }
+
+        items.forEach(item => {
+            const el = document.getElementById(item.id);
+            el.addEventListener('input', calculateTotal);
+            el.addEventListener('change', calculateTotal);
+        });
+    </script>
+</body>
+</html>
